@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f0e8">
+  <title>DataClinic · Label review lab</title>
+  <style>
+    :root { --paper:#f6f0e8; --ink:#1d2029; --muted:#666879; --line:#d6cfc6;
+      --coral:#f06549; --violet:#bcb0ea; --mint:#d8ebcb; --card:#fffdfa; }
+    * { box-sizing:border-box } body { margin:0; background:var(--paper); color:var(--ink);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+    a { color:inherit; } button,select { font:inherit; } button { cursor:pointer; }
+    .wrap { max-width:1240px; margin:auto; padding:0 34px; }
+    header { padding:24px 0; border-bottom:1px solid var(--ink); display:flex;
+      align-items:center; justify-content:space-between; gap:20px; }
+    .brand { font-size:19px; letter-spacing:-.06em; font-weight:900; }
+    .brand span { color:var(--coral) } .header-meta { font-size:12px; font-weight:750;
+      letter-spacing:.11em; text-transform:uppercase; color:var(--muted) }
+    .hero { position:relative; overflow:hidden; display:grid; grid-template-columns:1.25fr .75fr;
+      align-items:end; min-height:360px; padding:60px 0 54px; border-bottom:1px solid var(--ink); }
+    .eyebrow { font-size:12px; font-weight:850; text-transform:uppercase; letter-spacing:.15em; }
+    h1 { font-size:clamp(50px,7vw,102px); letter-spacing:-.09em; line-height:.98;
+      margin:23px 0 20px; max-width:790px; }
+    .hero p { font-size:18px; line-height:1.5; max-width:650px; margin:0; color:#444652; }
+    .stamp { width:240px; height:240px; background:var(--coral); border:2px solid var(--ink);
+      border-radius:50%; display:grid; place-content:center; text-align:center; transform:rotate(12deg);
+      box-shadow:16px 16px 0 var(--violet); justify-self:center; font-size:26px;
+      font-weight:900; line-height:1.1; letter-spacing:-.05em; }
+    .stamp small { font-size:11px; text-transform:uppercase; letter-spacing:.18em; margin-bottom:12px; }
+    main { padding:34px 0 84px; }
+    .controls { display:flex; gap:14px; flex-wrap:wrap; align-items:end; margin-bottom:27px; }
+    label { display:grid; gap:7px; font-size:11px; text-transform:uppercase;
+      letter-spacing:.1em; font-weight:800; }
+    select { min-width:166px; border:1px solid var(--ink); padding:11px 34px 11px 12px;
+      background:var(--card); border-radius:2px; color:var(--ink); }
+    .note-pill { margin-left:auto; border:1px solid var(--ink); padding:10px 14px;
+      font-size:12px; max-width:300px; line-height:1.4; background:var(--mint); }
+    .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .metric { background:var(--card); border:1px solid var(--ink); min-height:148px;
+      padding:20px; display:flex; flex-direction:column; justify-content:space-between; }
+    .metric:nth-child(2) { background:var(--violet); }
+    .metric:nth-child(3) { background:var(--mint); }
+    .metric .val { font-weight:900; font-size:clamp(28px,3.4vw,44px); letter-spacing:-.07em; }
+    .metric .desc { font-size:12px; color:#454755; line-height:1.4; }
+    .section-title { display:flex; justify-content:space-between; align-items:baseline;
+      gap:24px; margin:48px 0 16px; border-bottom:1px solid var(--ink); padding-bottom:12px; }
+    h2 { font-size:28px; letter-spacing:-.045em; margin:0; }
+    .small { font-size:12px; color:var(--muted); line-height:1.5; }
+    .plot { border:1px solid var(--ink); background:var(--card); padding:21px 24px; }
+    .bar-row { display:grid; grid-template-columns:190px 1fr 68px 110px;
+      gap:12px; align-items:center; padding:9px 0; font-size:13px; }
+    .bar-row.selected { font-weight:800; } .bar-bg { height:18px; background:#eee9e4;
+      border:1px solid #d6cfc6; }
+    .bar { height:100%; background:var(--violet); } .selected .bar { background:var(--coral); }
+    .delta { text-align:right; font-variant-numeric:tabular-nums; }
+    .queue { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .sample { display:grid; grid-template-columns:91px 1fr; gap:16px; border:1px solid var(--ink);
+      background:var(--card); padding:17px; min-height:150px; }
+    .digit { width:88px; height:88px; display:grid; grid-template-columns:repeat(8,1fr);
+      border:1px solid var(--ink); image-rendering:pixelated; background:white; }
+    .digit i { display:block; } .rank { font-size:11px; font-weight:800; letter-spacing:.11em; }
+    .sample strong { display:block; font-size:23px; letter-spacing:-.06em; margin:7px 0; }
+    .reveal { border:1px solid var(--ink); background:var(--paper); padding:6px 9px;
+      font-size:11px; font-weight:750; margin-top:4px; }
+    .review-result { font-size:12px; margin-top:8px; line-height:1.4; }
+    .review-result.bad { color:#b83b28; font-weight:800; }
+    .method-note { display:flex; gap:16px; align-items:start; padding:18px 0; font-size:13px;
+      color:#505361; border-bottom:1px solid var(--line); line-height:1.5; }
+    .method-note b { font-size:12px; text-transform:uppercase; color:var(--ink);
+      min-width:120px; }
+    footer { border-top:1px solid var(--ink); padding:24px 0 38px; font-size:12px;
+      line-height:1.6; color:#565766; display:flex; justify-content:space-between; gap:30px; }
+    @media(max-width:850px) { .hero { grid-template-columns:1fr; gap:36px; }
+      .stamp { width:160px; height:160px; font-size:20px; justify-self:start; }
+      .metrics { grid-template-columns:repeat(2,1fr); } .queue { grid-template-columns:repeat(2,1fr); }
+      .note-pill { margin-left:0; } }
+    @media(max-width:600px) { .wrap { padding:0 17px; } .hero { padding:40px 0; }
+      h1 { font-size:51px; } .header-meta { display:none; }
+      .metrics,.queue { grid-template-columns:1fr; } .metric { min-height:110px; }
+      .bar-row { grid-template-columns:125px 1fr 45px; gap:6px; font-size:11px; }
+      .delta { display:none; } .section-title { display:block; } .small { margin:8px 0 0; }
+      footer { display:block; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><div class="brand">Data<span>Clinic</span> / research notebook</div>
+      <div class="header-meta">A budgeted label review experiment · 2026</div></header>
+    <section class="hero"><div><div class="eyebrow">Experiment 01 / Training data quality</div>
+      <h1>Which labels<br>should we check?</h1>
+      <p>Six ways to rank suspicious training examples. One review budget. The test is whether fixing selected labels actually helps a model on unseen examples.</p>
+      </div><div class="stamp"><small>Research question</small>Find errors.<br>Test the fix.</div></section>
+    <main>
+      <div class="controls">
+        <label>Dataset<select id="dataset"><option value="digits">Handwritten digits</option><option value="breast_cancer">Tabular diagnostic data</option></select></label>
+        <label>Corruption<select id="mode"><option value="boundary">Difficult cases</option><option value="paired">Class-specific flips</option><option value="uniform">Random flips</option></select></label>
+        <label>Review rule<select id="method"><option value="rank_fusion">Fixed rank fusion</option><option value="oof_logistic">Out-of-fold logistic</option><option value="neighbors">Neighbour agreement</option><option value="oof_forest">Out-of-fold forest</option><option value="training_margin">Neural training margin</option><option value="random">Random review</option></select></label>
+        <label>Review budget<select id="budget"><option>25</option><option>50</option><option selected>100</option><option>200</option></select></label>
+        <div class="note-pill">Each correction is revealed by a <b>simulated human reviewer</b>. The model cannot see clean training labels before review.</div>
+      </div>
+      <div class="metrics" aria-live="polite">
+        <div class="metric"><div class="val" id="precision">—</div><div class="desc">Injected errors found per selected review, averaged across seeds</div></div>
+        <div class="metric"><div class="val" id="found">—</div><div class="desc">Mean number of injected errors found within the budget</div></div>
+        <div class="metric"><div class="val" id="gain">—</div><div class="desc">Change in held-out accuracy after corrections, percentage points</div></div>
+        <div class="metric"><div class="val" id="base">—</div><div class="desc">Held-out accuracy before any reviews, same paired runs</div></div>
+      </div>
+      <div class="section-title"><h2>How the methods compare</h2>
+        <p class="small">Precision at the selected budget · accuracy change on the right · logistic outcome model</p></div>
+      <div class="plot" id="comparison" role="img" aria-label="Comparison of review methods"></div>
+      <div class="section-title"><h2>Inside the review queue</h2>
+        <p class="small" id="queue-note">First 30 suggestions from the digit experiment, seed 11. Click a card to simulate a label check.</p></div>
+      <div class="queue" id="queue"></div>
+      <div class="method-note"><b>What this means</b><span>These are controlled errors introduced into real datasets. A suspicious example may be genuinely difficult and correctly labelled. The ranking is a suggestion for review, never permission to delete data automatically.</span></div>
+      <div class="method-note"><b>What it does not mean</b><span>These experiments do not establish performance on naturally mislabelled production data or support clinical use. Results vary across the recorded splits; see the repository CSV files for every run.</span></div>
+    </main>
+    <footer><span>Source, fixed protocol, and complete runs: see the repository README and results folder.</span>
+      <span>Standalone page · no external scripts or network calls</span></footer>
+  </div>
+  <script>
+    const DATA = __DATACLINIC_DATA__;
+    const names = {random:'Random review',oof_logistic:'Out-of-fold logistic',neighbors:'Neighbour agreement',
+      oof_forest:'Out-of-fold forest',training_margin:'Neural training margin',rank_fusion:'Fixed rank fusion'};
+    const order = ['random','oof_logistic','neighbors','oof_forest','training_margin','rank_fusion'];
+    const byId = id => document.getElementById(id);
+    const controls = ['dataset','mode','method','budget'];
+    const revealed = new Set();
+    function pct(value) { return (value*100).toFixed(1)+'%'; }
+    function signed(value) { return (value >= 0 ? '+' : '')+(value*100).toFixed(2)+' pp'; }
+    function selected() { return Object.fromEntries(controls.map(k => [k,byId(k).value])); }
+    function draw() {
+      const s=selected(), rows=DATA.summary.filter(r => r.dataset===s.dataset && r.mode===s.mode &&
+        r.model==='logistic' && r.budget===Number(s.budget));
+      const item=rows.find(r => r.method===s.method);
+      if (!item) { byId('comparison').textContent='No results for this selection.'; return; }
+      byId('precision').textContent=pct(item.mean_precision);
+      byId('found').textContent=item.mean_found.toFixed(1);
+      byId('gain').textContent=signed(item.mean_delta_accuracy);
+      byId('base').textContent=pct(item.mean_base_accuracy);
+      const chart=byId('comparison'); chart.replaceChildren();
+      for(const method of order) {
+        const r=rows.find(x=>x.method===method); if(!r) continue;
+        const line=document.createElement('div'); line.className='bar-row'+(method===s.method?' selected':'');
+        const label=document.createElement('span'); label.textContent=names[method];
+        const track=document.createElement('div'); track.className='bar-bg';
+        const bar=document.createElement('div'); bar.className='bar'; bar.style.width=(r.mean_precision*100)+'%';
+        track.append(bar);
+        const score=document.createElement('strong'); score.textContent=pct(r.mean_precision);
+        const delta=document.createElement('span'); delta.className='delta'; delta.textContent=signed(r.mean_delta_accuracy);
+        line.append(label,track,score,delta); chart.append(line);
+      }
+      const q=byId('queue'); q.replaceChildren();
+      if(s.dataset!=='digits') {
+        byId('queue-note').textContent='The visual review queue is available for handwritten digits. The tabular results remain available above.';
+        return;
+      }
+      byId('queue-note').textContent='First 30 suggestions from the digit experiment, seed 11. Click a card to simulate a label check.';
+      const samples=((DATA.cases[s.mode]||{})[s.method]||[]);
+      for (const entry of samples) {
+        const card=document.createElement('article'); card.className='sample';
+        const pixels=document.createElement('div'); pixels.className='digit';
+        pixels.setAttribute('aria-label','8 by 8 image of a handwritten digit');
+        for (const value of entry.pixels.flat()) {
+          const cell=document.createElement('i'); const level=Math.round(255-value*14.4);
+          cell.style.backgroundColor=`rgb(${level},${level},${level})`; pixels.append(cell);
+        }
+        const detail=document.createElement('div');
+        const rank=document.createElement('div'); rank.className='rank';
+        rank.textContent='#'+String(entry.rank).padStart(2,'0')+' / ID '+entry.sample_id;
+        const label=document.createElement('strong'); label.textContent='Label '+entry.recorded_label;
+        const button=document.createElement('button'); button.className='reveal'; button.type='button';
+        button.textContent='Reveal review';
+        const result=document.createElement('div'); result.className='review-result';
+        const key=s.mode+':'+s.method+':'+entry.sample_id;
+        const show=()=>{ result.textContent=entry.injected_error ?
+          'Injected error · reviewer says '+entry.reviewed_label : 'Correct label · keep '+entry.reviewed_label;
+          result.className='review-result'+(entry.injected_error?' bad':'');
+          button.textContent='Reviewed'; button.disabled=true; };
+        if(revealed.has(key)) show();
+        button.addEventListener('click',()=>{revealed.add(key);show();});
+        detail.append(rank,label,button,result); card.append(pixels,detail); q.append(card);
+      }
+    }
+    for(const key of controls) byId(key).addEventListener('change',draw);
+    draw();
+  </script>
+</body>
+</html>

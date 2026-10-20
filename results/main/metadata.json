@@ -1,0 +1,43 @@
+{
+  "version": "0.1.0",
+  "configuration": {
+    "datasets": [
+      "digits",
+      "breast_cancer"
+    ],
+    "modes": [
+      "uniform",
+      "paired",
+      "boundary"
+    ],
+    "seeds": [
+      11,
+      23,
+      37,
+      51,
+      79
+    ],
+    "noise_rate": 0.2,
+    "test_size": 0.25,
+    "cv_folds": 3,
+    "dynamics_epochs": 20,
+    "budgets": [
+      25,
+      50,
+      100,
+      200
+    ],
+    "forest_trees": 60,
+    "secondary_budget": 100
+  },
+  "runtime_seconds": 52.54,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "scikit_learn": "1.8.0",
+    "pandas": "2.2.3"
+  },
+  "cohorts": 30,
+  "note": "Clean training labels were used only to inject errors, simulate review, and score rankings."
+}

@@ -1,0 +1,13 @@
+{
+  "datasets": ["digits"],
+  "modes": ["uniform"],
+  "seeds": [11],
+  "noise_rate": 0.2,
+  "test_size": 0.25,
+  "cv_folds": 3,
+  "dynamics_epochs": 3,
+  "budgets": [25, 100],
+  "forest_trees": 15,
+  "secondary_budget": 100
+}
+
